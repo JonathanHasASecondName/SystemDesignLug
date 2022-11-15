@@ -1,4 +1,7 @@
 class Configuration:
+    """
+    A class is used to more effectively hold the information
+    """
     def __init__(self,
                  flange_width,
                  flange_spacing,
