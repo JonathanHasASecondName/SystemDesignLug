@@ -5,6 +5,9 @@ from configurations_validation import ConfigurationsValidator
 
 
 def main():
+    """
+    Don't touch! Basically a control file to handle all the different classes.
+    """
     configuration_generator = ConfigurationsGenerator()
     configurations_validator = ConfigurationsValidator()
 

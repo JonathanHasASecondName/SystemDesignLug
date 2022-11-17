@@ -6,6 +6,10 @@ class ConfigurationsGenerator:
     Generate different configurations to evaluate for the validator
     """
     def generate_configurations(self) -> list[Configuration]:
+        """
+        This function generates a list of all configurations that matches the requirements for forces.
+        :return: A list of all the configurations.
+        """
         configurations = [
             Configuration(
                 flange_width=1,
@@ -19,4 +23,11 @@ class ConfigurationsGenerator:
                 fastener_side_distance=1
             )
         ]
+        """
+        CODE GOES BELOW
+        """
+
+        """
+        CODE GOES ABOVE
+        """
         return configurations

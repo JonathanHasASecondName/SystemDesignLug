@@ -1,6 +1,6 @@
 class Configuration:
     """
-    A class is used to more effectively hold the information
+    Don't touch! A class is used to more effectively hold the information
     """
     def __init__(self,
                  flange_width,
