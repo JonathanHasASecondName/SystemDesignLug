@@ -18,14 +18,14 @@ class GraphReader:
             **kwargs
     ):
         if self.cache[load_case] is None:
-            if load_case == 'tension':
-                self.read_table(load_case, config.tension_factors_path)
-            elif load_case == 'shear':
+            if load_case == 'shear':
                 self.read_table(load_case, config.shear_factors_path)
+            elif load_case == 'tension':
+                self.read_table(load_case, config.tension_factors_path)
         datapoint = None
         if t_over_D is not None and e_over_D is not None and load_case == 'shear':
             datapoint = self.get_datapoint_from_table(load_case, t_over_D, e_over_D)
-        elif Aav_over_Abr is not None and load_case == 'shear':
+        elif line_number is not None and Aav_over_Abr is not None and load_case == 'tension':
             datapoint = self.get_datapoint_from_table(load_case, line_number, Aav_over_Abr)
         return datapoint
 
@@ -58,7 +58,7 @@ class GraphReader:
 graph_reader = GraphReader()
 time_zero = time.time()
 print(graph_reader.get_datapoint(
-    load_case='shear',
-    t_over_D='0.4',
-    e_over_D=2
+    load_case='tension',
+    line_number='9',
+    Aav_over_Abr=1
 ))
