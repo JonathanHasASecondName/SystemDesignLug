@@ -22,5 +22,3 @@ class Configuration:
         self.fastener_diameter = fastener_diameter
         self.fastener_top_distance = fastener_top_distance
         self.fastener_side_distance = fastener_side_distance
-
-print(32)
