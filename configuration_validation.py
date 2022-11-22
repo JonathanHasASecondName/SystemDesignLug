@@ -19,4 +19,3 @@ class ConfigurationValidator:
                 return False
         return True
 
-print("Hello")
