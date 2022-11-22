@@ -27,7 +27,12 @@ def P_ty_calculation(A_av, A_br, stress_yield):
     P_ty = K_ty * A_br * stress_yield
     return P_ty
 
-def P_y
+def P_y(diameter_1,thickness_1,width_1,stress_yield,stress_ultimate):
+    K_t =
+    tension_area = (width_1 - diameter_1) * thickness_1
+    P_y = tension_area * K_t * stress_yield
+    return P_y
+
 
 print(P_ty_calculation(A_av, A_br, stress_yield))
 
