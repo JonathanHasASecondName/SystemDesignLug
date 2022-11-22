@@ -57,9 +57,9 @@ class GraphReader:
 
 graph_reader = GraphReader()
 time_zero = time.time()
-print(graph_reader.get_datapoint(
-    load_case='tension',
-    line_number='9',
-    Aav_over_Abr=1
-))
+#print(graph_reader.get_datapoint(
+#    load_case='tension',
+#    line_number='9',
+#    Aav_over_Abr=1
+#))
 #Hello

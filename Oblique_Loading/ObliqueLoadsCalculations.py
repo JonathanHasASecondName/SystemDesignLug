@@ -1,5 +1,5 @@
 import pandas as pd
-
+from graph_reader import graph_reader
 #Input values
 diameter_1 = 0.001
 thickness_1 = 0.001
@@ -28,7 +28,10 @@ def P_ty_calculation(A_av, A_br, stress_yield):
     return P_ty
 
 def P_y(diameter_1,thickness_1,width_1,stress_yield,stress_ultimate):
-    K_t =
+    K_t = graph_reader.get_datapoint(
+        load_case='tension',
+        line_number='9',
+        Aav_over_Abr=1)
     tension_area = (width_1 - diameter_1) * thickness_1
     P_y = tension_area * K_t * stress_yield
     return P_y
