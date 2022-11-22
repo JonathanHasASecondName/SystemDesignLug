@@ -18,3 +18,5 @@ class ConfigurationValidator:
             if not validator.run_check(configuration):
                 return False
         return True
+
+print("Hello")
