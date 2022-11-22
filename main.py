@@ -14,5 +14,5 @@ def main():
     configurations = configuration_generator.generate_configurations()
     configurations_validator.validate_configurations(configurations)
 
-
+print("hello")
 main()
