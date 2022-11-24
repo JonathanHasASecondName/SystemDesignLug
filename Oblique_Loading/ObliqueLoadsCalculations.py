@@ -36,7 +36,8 @@ def P_y(diameter_1,thickness_1,width_1,stress_yield,stress_ultimate):
     P_y = tension_area * K_t * stress_yield
     return P_y
 
-def P_tu(diameter_1, thickness_1, width_1, stress_yield, stress_ultimate):
+
+
 
 
 def interaction_eq():
