@@ -10,27 +10,37 @@ F_y = 0.1 * F_z
 
 #Getting the data
 def P_bry_calculation(thickness_1, diameter_1, width_1, stress_ultimate):
+    A_av, A_br = AavAbrCalculation(diameter_1, thickness_1, width_1)
     t_over_D = thickness_1 / diameter_1
     e_over_D = 0.5 * width_1 / diameter_1
     K_bry = graph_reader.get_datapoint(
         load_case='shear',
         t_over_D=str(t_over_D),
         e_over_D=float(e_over_D))
-    P_bry = K_bry * A_br * stress_ultimate
+    if K_bry is not None:
+        P_bry = K_bry * A_br * stress_ultimate
+    else:
+        P_bry = K_bry
     return P_bry
 
-def P_ty_calculation(A_av, A_br, stress_yield):
+def AavAbrCalculation(diameter_1,thickness_1,width_1):
     A_1 = (width_1 / 2 - (0.7071 * diameter_1 / 2)) * thickness_1
     A_4 = A_1
     A_2 = A_3 = (width_1 / 2 - diameter_1 / 2) * thickness_1
     A_av = 6 / (3 / A_1 + 1 / A_2 + 1 / A_3 + 1 / A_4)
     A_br = diameter_1 * thickness_1
+    return A_av, A_br
+def P_ty_calculation(diameter_1, thickness_1, width_1, stress_yield):
+    A_av, A_br = AavAbrCalculation(diameter_1, thickness_1, width_1)
     Aav_over_Abr = A_av/A_br
     K_ty = graph_reader.get_datapoint(
         load_case='tension',
         line_number='3',
         Aav_over_Abr=Aav_over_Abr)
-    P_ty = K_ty * A_br * stress_yield
+    if K_ty is not None:
+        P_ty = K_ty * A_br * stress_yield
+    else:
+        P_ty = K_ty
     return P_ty
 
 def P_y_calculation(diameter_1,thickness_1,width_1,stress_yield,stress_ultimate):
@@ -39,7 +49,10 @@ def P_y_calculation(diameter_1,thickness_1,width_1,stress_yield,stress_ultimate)
         line_number_2='1',
         w_over_D=1)
     tension_area = (width_1 - diameter_1) * thickness_1
-    P_y = tension_area * K_t * stress_yield
+    if K_t is not None:
+        P_y = tension_area * K_t * stress_yield
+    else:
+        P_y = K_t
     return P_y
 
 
@@ -47,8 +60,9 @@ def P_y_calculation(diameter_1,thickness_1,width_1,stress_yield,stress_ultimate)
 
 
 def interaction_eq(diameter_1, thickness_1, width_1, stress_yield, stress_ultimate, F_y, F_z):
+    A_av, A_br = AavAbrCalculation(diameter_1, thickness_1, width_1)
     P_y = P_y_calculation(diameter_1,thickness_1,width_1,stress_yield,stress_ultimate)
-    P_ty = P_ty_calculation(A_av, A_br, stress_yield)
+    P_ty = P_ty_calculation(diameter_1, thickness_1, width_1, stress_yield)
     P_bry  = P_bry_calculation(thickness_1, diameter_1, width_1, stress_ultimate)
     R_a = F_y / min(P_y, P_bry)
     R_tr = F_z / P_ty
@@ -66,14 +80,18 @@ def calculate_mass(diameter_1,thickness_1,width_1,density):
     return mass
 
 
-accepted_dimension = []
+accepted_dimensions = []
 for diameter_1 in np.arange(0.001, 0.02, 0.001):
     for thickness_1 in np.arange(0.001, 0.02, 0.001):
         for width_1 in np.arange(0.001, 0.02, 0.001):
-            if interaction_eq(diameter_1, thickness_1, width_1, stress_yield, stress_ultimate, F_y, F_z) >=1:
-                mass_1 = calculate_mass(diameter_1,thickness_1,width_1,density)
-                accepted_dimension.append([diameter_1, thickness_1, width_1, mass_1])
-
+            if (P_y_calculation(diameter_1,thickness_1,width_1,stress_yield,stress_ultimate) is not None) and (P_ty_calculation(diameter_1, thickness_1, width_1, stress_yield) is not None) and (P_bry_calculation(thickness_1, diameter_1, width_1, stress_ultimate) is not None):
+                interac = interaction_eq(diameter_1, thickness_1, width_1, stress_yield, stress_ultimate, F_y, F_z)
+                if interac >=1:
+                    print(P_y_calculation(diameter_1,thickness_1,width_1,stress_yield,stress_ultimate), P_ty_calculation(diameter_1, thickness_1, width_1, stress_yield), P_bry_calculation(thickness_1, diameter_1, width_1, stress_ultimate))
+                    mass_1 = calculate_mass(diameter_1,thickness_1,width_1,density)
+                    accepted_dimensions.append([diameter_1, thickness_1, width_1, mass_1, interac])
+accepted_dimensions = np.array(accepted_dimensions)
+print(accepted_dimensions)
 
 
 
