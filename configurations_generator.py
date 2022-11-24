@@ -24,6 +24,7 @@ def generate_configurations() -> list[Configuration]:
         e_2 = 1.5 * D_2
         e_3 = t_1 + 0.5 * D_2
         num_rows = find_number_of_rows('steel', e_1, D_2, w)
+        S_x = find_S_x('steel', D_2)
         num_columns = 1
         try:
             S_z = (1 / (num_rows - 1)) * (w - 2 * e_1)
@@ -45,6 +46,12 @@ def generate_configurations() -> list[Configuration]:
     CODE GOES ABOVE
     """
     return configurations
+
+def find_S_x(material: str, D_2):
+    if materials_list[material]['type'] == 'metal':
+        return 2*D_2
+    else:
+        return 4*D_2
 
 def find_coordinates(h, D_2, t_1, e_1, e_2, S_z, S_x, num_rows, num_columns):
     coordinates_list = []
