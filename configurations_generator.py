@@ -31,6 +31,7 @@ def generate_configurations() -> list[Configuration]:
             S_z = 0
         coordinates = find_coordinates(
             h=h,
+            D_2=D_2,
             t_1=t_1,
             e_1=e_1,
             e_2=e_2,
@@ -45,12 +46,11 @@ def generate_configurations() -> list[Configuration]:
     """
     return configurations
 
-def find_coordinates(h, t_1, e_1, e_2, S_z, S_x, num_rows, num_columns):
+def find_coordinates(h, D_2, t_1, e_1, e_2, S_z, S_x, num_rows, num_columns):
     coordinates_list = []
     x_coord = e_2
     y_coord = 0
     z_coord = e_1
-    e_3 =
     for i in range(2):
         for j in range(num_columns):
             z_coord = e_1
@@ -59,7 +59,7 @@ def find_coordinates(h, t_1, e_1, e_2, S_z, S_x, num_rows, num_columns):
                 z_coord += S_z
             x_coord += S_x
         #middle of lug
-        x_coord += 2*2*t_1+h+e_3 # two extra t_1 for spacing
+        x_coord += 2*2*t_1+h+D_2 # two extra t_1 for spacing
     return coordinates_list
 
 
