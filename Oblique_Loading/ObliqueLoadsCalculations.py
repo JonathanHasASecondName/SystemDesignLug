@@ -6,7 +6,6 @@ thickness_1 = 0.001
 width_1 = 0.002
 stress_yield = 1000
 stress_ultimate = 1000
-density = 2800
 
 #Calculated parameters
 A_1=A_4=width_1/2-(0.7071*diameter_1/2)
@@ -37,14 +36,11 @@ def P_y(diameter_1,thickness_1,width_1,stress_yield,stress_ultimate):
     P_y = tension_area * K_t * stress_yield
     return P_y
 
-#Mass function
-def calculate_mass(diameter_1,thickness_1,width_1,density):
-    radius = diameter_1/2
-    big_radius = width_1/2
-    volume = (((3.14*big_radius**2)/2)+(width_1*(width_1/2))-(3.14*(radius**2)))*thickness_1
-    mass = volume * density
-    return mass
+def interaction_eq():
+    P_y = P_y(diameter_1,thickness_1,width_1,stress_yield,stress_ultimate)
+    P_ty = P_ty_calculation(A_av, A_br, stress_yield)
+    P_bry  = P_bry_calculation(thickness_1, diameter_1, width_1, stress_ultimate)
 
-print(P_ty_calculation(A_av, A_br, stress_yield))
+
 
 
