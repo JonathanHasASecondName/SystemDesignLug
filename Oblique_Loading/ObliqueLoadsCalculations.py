@@ -7,6 +7,8 @@ width_1 = 0.002
 stress_yield = 1000
 stress_ultimate = 1000
 density = 2800
+F_z = 1000
+F_y = 0.1 * F_z
 
 #Calculated parameters
 A_1=A_4=width_1/2-(0.7071*diameter_1/2)
@@ -45,7 +47,10 @@ def interaction_eq():
     P_y = P_y(diameter_1,thickness_1,width_1,stress_yield,stress_ultimate)
     P_ty = P_ty_calculation(A_av, A_br, stress_yield)
     P_bry  = P_bry_calculation(thickness_1, diameter_1, width_1, stress_ultimate)
-    P_tu =
+    R_a = F_y / min(P_y, P_bry)
+    R_tr = F_z / P_ty
+    Interac = R_a ** 1.6 + R_tr ** 1.6
+
 
 
 #mass function
