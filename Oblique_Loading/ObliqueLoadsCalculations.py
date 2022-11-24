@@ -90,8 +90,14 @@ for diameter_1 in np.arange(0.001, 0.02, 0.0001):
                           mass_1 = calculate_mass(diameter_1,thickness_1,width_1,density)
                           accepted_dimensions.append([diameter_1, thickness_1, width_1, mass_1, interac])
 accepted_dimensions = np.array(accepted_dimensions)
-for accepted_dimension in 
-print(accepted_dimensions)
+count_1 = -1
+for accepted_dimension in accepted_dimensions:
+    count_1 += 1
+    mass_min = np.inf
+    if accepted_dimension[3] < mass_min:
+        mass_min = accepted_dimension[3]
+        mass_min_index = count_1
+print(accepted_dimensions[mass_min_index])
 print('hello')
 
 
