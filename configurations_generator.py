@@ -37,7 +37,7 @@ def generate_configurations() -> list[Configuration]:
             e_1=e_1,
             e_2=e_2,
             S_z=S_z,
-            S_x=2*D_2,
+            S_x=S_x,
             num_rows=num_rows,
             num_columns=num_columns
         )
