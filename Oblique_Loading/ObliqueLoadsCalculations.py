@@ -79,19 +79,20 @@ def calculate_mass(diameter_1,thickness_1,width_1,density):
     mass = volume * density
     return mass
 
-
 accepted_dimensions = []
-for diameter_1 in np.arange(0.001, 0.02, 0.001):
-    for thickness_1 in np.arange(0.001, 0.02, 0.001):
-        for width_1 in np.arange(0.001, 0.02, 0.001):
-            if (P_y_calculation(diameter_1,thickness_1,width_1,stress_yield,stress_ultimate) is not None) and (P_ty_calculation(diameter_1, thickness_1, width_1, stress_yield) is not None) and (P_bry_calculation(thickness_1, diameter_1, width_1, stress_ultimate) is not None):
-                interac = interaction_eq(diameter_1, thickness_1, width_1, stress_yield, stress_ultimate, F_y, F_z)
-                if interac >=1:
-                    print(P_y_calculation(diameter_1,thickness_1,width_1,stress_yield,stress_ultimate), P_ty_calculation(diameter_1, thickness_1, width_1, stress_yield), P_bry_calculation(thickness_1, diameter_1, width_1, stress_ultimate))
-                    mass_1 = calculate_mass(diameter_1,thickness_1,width_1,density)
-                    accepted_dimensions.append([diameter_1, thickness_1, width_1, mass_1, interac])
+for diameter_1 in np.arange(0.001, 0.02, 0.0001):
+    for thickness_1 in np.arange(0.001, 0.02, 0.0001):
+        for width_1 in np.arange(0.001, 0.02, 0.0001):
+            if width_1 > diameter_1:
+                if (P_y_calculation(diameter_1,thickness_1,width_1,stress_yield,stress_ultimate) is not None) and (P_ty_calculation(diameter_1, thickness_1, width_1, stress_yield) is not None) and (P_bry_calculation(thickness_1, diameter_1, width_1, stress_ultimate) is not None):
+                    interac = interaction_eq(diameter_1, thickness_1, width_1, stress_yield, stress_ultimate, F_y, F_z)
+                    if interac >= 1:
+                          mass_1 = calculate_mass(diameter_1,thickness_1,width_1,density)
+                          accepted_dimensions.append([diameter_1, thickness_1, width_1, mass_1, interac])
 accepted_dimensions = np.array(accepted_dimensions)
+for accepted_dimension in 
 print(accepted_dimensions)
+print('hello')
 
 
 
