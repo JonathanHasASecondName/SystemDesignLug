@@ -47,7 +47,7 @@ def P_y_calculation(diameter_1,thickness_1,width_1,stress_yield,stress_ultimate)
     K_t = graph_reader.get_datapoint(
         load_case='axial',
         line_number_2='1',
-        w_over_D=1)
+        w_over_D=width_1/diameter_1)
     tension_area = (width_1 - diameter_1) * thickness_1
     if K_t is not None:
         P_y = tension_area * K_t * stress_yield
