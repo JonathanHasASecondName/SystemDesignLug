@@ -6,15 +6,19 @@ import time
 class GraphReader:
     def __init__(self):
         self.cache = {'tension': None,
-                      'shear': None}
+                      'shear': None,
+                      'axial': None}
 
     def get_datapoint(
             self,
             load_case,
             t_over_D=None,
             e_over_D=None,
+            w_over_D=None,
             line_number=None,
+            line_number_2=None,
             Aav_over_Abr=None,
+
             **kwargs
     ):
         if self.cache[load_case] is None:
@@ -22,11 +26,15 @@ class GraphReader:
                 self.read_table(load_case, config.shear_factors_path)
             elif load_case == 'tension':
                 self.read_table(load_case, config.tension_factors_path)
+            elif load_case == 'axial':
+                self.read_table(load_case, config.axial_factors_path)
         datapoint = None
         if t_over_D is not None and e_over_D is not None and load_case == 'shear':
             datapoint = self.get_datapoint_from_table(load_case, t_over_D, e_over_D)
         elif line_number is not None and Aav_over_Abr is not None and load_case == 'tension':
             datapoint = self.get_datapoint_from_table(load_case, line_number, Aav_over_Abr)
+        elif w_over_D is not None and line_number_2 is not None and load_case == 'axial':
+            datapoint = self.get_datapoint_from_table(load_case, line_number_2, w_over_D)
         return datapoint
 
     def get_datapoint_from_table(self, load_case, key, x_coordinate):
@@ -58,8 +66,8 @@ class GraphReader:
 graph_reader = GraphReader()
 time_zero = time.time()
 #print(graph_reader.get_datapoint(
-#    load_case='tension',
-#    line_number='9',
-#    Aav_over_Abr=1
+#    load_case='axial',
+#    line_number_2='1',
+#    w_over_D=1.5
 #))
 #Hello
