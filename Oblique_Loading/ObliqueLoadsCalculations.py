@@ -50,6 +50,7 @@ def interaction_eq():
     R_a = F_y / min(P_y, P_bry)
     R_tr = F_z / P_ty
     Interac = R_a ** 1.6 + R_tr ** 1.6
+    return Interac
 
 
 
