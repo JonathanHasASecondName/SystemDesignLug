@@ -47,7 +47,7 @@ def P_y_calculation(diameter_1,thickness_1,width_1,stress_yield,stress_ultimate)
 
 
 def interaction_eq(diameter_1, thickness_1, width_1, stress_yield, stress_ultimate, F_y, F_z):
-    P_y = P_y(diameter_1,thickness_1,width_1,stress_yield,stress_ultimate)
+    P_y = P_y_calculation(diameter_1,thickness_1,width_1,stress_yield,stress_ultimate)
     P_ty = P_ty_calculation(A_av, A_br, stress_yield)
     P_bry  = P_bry_calculation(thickness_1, diameter_1, width_1, stress_ultimate)
     R_a = F_y / min(P_y, P_bry)
