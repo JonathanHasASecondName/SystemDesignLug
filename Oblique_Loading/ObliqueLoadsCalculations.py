@@ -2,10 +2,10 @@ import pandas as pd
 from graph_reader import graph_reader
 import numpy as np
 #Input values
-stress_yield = 1000*10**6
-stress_ultimate = 1000*10**6
-density = 2800
-F_z = 1000
+stress_yield = 550*10**6
+stress_ultimate = 620*10**6
+density = 7850
+F_z = 570
 F_y = 0.1 * F_z
 
 #Getting the data
