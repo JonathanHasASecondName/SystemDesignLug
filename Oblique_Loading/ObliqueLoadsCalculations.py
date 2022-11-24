@@ -38,7 +38,7 @@ def P_ty_calculation(A_av, A_br, stress_yield):
     P_ty = K_ty * A_br * stress_yield
     return P_ty
 
-def P_y(diameter_1,thickness_1,width_1,stress_yield,stress_ultimate):
+def P_y_calculation(diameter_1,thickness_1,width_1,stress_yield,stress_ultimate):
     K_t = graph_reader.get_datapoint(
         load_case='axial',
         line_number_2='1',
@@ -52,7 +52,7 @@ def P_y(diameter_1,thickness_1,width_1,stress_yield,stress_ultimate):
 
 
 def interaction_eq():
-    P_y = P_y(diameter_1,thickness_1,width_1,stress_yield,stress_ultimate)
+    P_y = P_y_calculation(diameter_1,thickness_1,width_1,stress_yield,stress_ultimate)
     P_ty = P_ty_calculation(A_av, A_br, stress_yield)
     P_bry  = P_bry_calculation(thickness_1, diameter_1, width_1, stress_ultimate)
     R_a = F_y / min(P_y, P_bry)
