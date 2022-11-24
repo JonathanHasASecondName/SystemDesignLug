@@ -8,13 +8,6 @@ density = 2800
 F_z = 1000
 F_y = 0.1 * F_z
 
-#Calculated parameters
-A_1=(width_1/2-(0.7071*diameter_1/2))*thickness_1
-A_4=A_1
-A_2=A_3=(width_1/2-diameter_1/2)*thickness_1
-A_av=6/(3/A_1+1/A_2+1/A_3+1/A_4)
-A_br=diameter_1*thickness_1
-
 #Getting the data
 def P_bry_calculation(thickness_1, diameter_1, width_1, stress_ultimate):
     t_over_D = thickness_1 / diameter_1
@@ -27,8 +20,12 @@ def P_bry_calculation(thickness_1, diameter_1, width_1, stress_ultimate):
     return P_bry
 
 def P_ty_calculation(A_av, A_br, stress_yield):
+    A_1 = (width_1 / 2 - (0.7071 * diameter_1 / 2)) * thickness_1
+    A_4 = A_1
+    A_2 = A_3 = (width_1 / 2 - diameter_1 / 2) * thickness_1
+    A_av = 6 / (3 / A_1 + 1 / A_2 + 1 / A_3 + 1 / A_4)
+    A_br = diameter_1 * thickness_1
     Aav_over_Abr = A_av/A_br
-
     K_ty = graph_reader.get_datapoint(
         load_case='tension',
         line_number='3',
@@ -50,7 +47,7 @@ def P_y_calculation(diameter_1,thickness_1,width_1,stress_yield,stress_ultimate)
 
 
 def interaction_eq(diameter_1, thickness_1, width_1, stress_yield, stress_ultimate, F_y, F_z):
-    P_y = P_y_calculation(diameter_1,thickness_1,width_1,stress_yield,stress_ultimate)
+    P_y = P_y(diameter_1,thickness_1,width_1,stress_yield,stress_ultimate)
     P_ty = P_ty_calculation(A_av, A_br, stress_yield)
     P_bry  = P_bry_calculation(thickness_1, diameter_1, width_1, stress_ultimate)
     R_a = F_y / min(P_y, P_bry)
