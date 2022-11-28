@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 from configuration import Configuration
 from config import *
 from materials_list import materials_list
@@ -11,14 +12,9 @@ def generate_configurations() -> list[Configuration]:
 
     configurations = []
     bolt_types = read_table("bolts.csv")
-    max_columns = 3 + 1
-    """
-    CODE GOES BELOW
-    """
 
     # NB: num_rows and num_columns
     for bolt_type in bolt_types:
-        max_rows = max_columns # Change this later
         D_2 = bolt_type[1]
         e_1 = 1.5 * D_2
         e_2 = 1.5 * D_2
@@ -41,10 +37,6 @@ def generate_configurations() -> list[Configuration]:
             num_rows=num_rows,
             num_columns=num_columns
         )
-
-    """
-    CODE GOES ABOVE
-    """
     return configurations
 
 def find_S_x(material: str, D_2):
@@ -65,8 +57,9 @@ def find_coordinates(h, D_2, t_1, e_1, e_2, S_z, S_x, num_rows, num_columns):
                 coordinates_list.append([x_coord, y_coord, z_coord])
                 z_coord += S_z
             x_coord += S_x
-        #middle of lug
-        x_coord += 2*2*t_1+h+D_2 # two extra t_1 for spacing
+        # middle of lug
+        x_coord += 2*2*t_1+h+D_2  # two extra t_1 for spacing
+    coordinates_list = np.array(coordinates_list)
     return coordinates_list
 
 
@@ -74,10 +67,10 @@ def find_number_of_rows(material: str, e_1, D_2, w):
     if materials_list[material]['type'] == 'metal':
         m = 2
     else:
-        m=4
+        m = 4
 
     w_rc = 2*e_1 + m*D_2
-    n=2
+    n = 2
     while True:
         if w_rc > w:
             n = n-1
@@ -92,3 +85,15 @@ def read_table(filepath):
     table = pd.read_csv(filepath)
     return table.values.tolist()
 
+coordinates =find_coordinates(
+    h=1,
+    D_2=2,
+    t_1=1,
+    e_1=1,
+    e_2=1,
+    S_z=1,
+    S_x=1,
+    num_rows=5,
+    num_columns=5
+)
+print(coordinates)
