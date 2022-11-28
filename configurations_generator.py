@@ -96,4 +96,3 @@ coordinates =find_coordinates(
     num_rows=5,
     num_columns=5
 )
-print(coordinates)
