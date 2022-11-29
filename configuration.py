@@ -6,6 +6,7 @@ class Configuration:
                  fastener_positions,
                  D_fo,
                  D_fi,
+                 material
                  ):
         self.fastener_positions = fastener_positions
         self.D_fo = D_fo
@@ -15,5 +16,6 @@ class Configuration:
         self.E_b = None
         self.alpha_b = None
         self.rho_b = None
+        self.material = material
 
 
