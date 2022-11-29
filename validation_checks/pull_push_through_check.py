@@ -37,17 +37,13 @@ def calculate_moment_force_per_fastener(coordinate_array: np.array, forces: np.a
     # TODO validate this shit, I wrote it at 12 pm
     total_moment = calculate_total_moment(coordinate_array, forces, forces_location)
     # note r_i in eq. 4.6 refers to distance from axis of the cg. to the row (for M_x) or column (M_y) of the bolt
-    r_i = np.linalg.norm(coordinate_array-cgs, axis=1)
-    r_i2 = coordinate_array*coordinate_array
-    r_i2_sum = np.sum(r_i2, axis=0)  # find the r_i term of the eq. 4.7
-    r_i2_sum[1] = 1  # avoid zero-division
-    x_moment_forces = total_moment[2]*r_i/r_i2_sum[2]
-    y_moment_forces = 0/r_i
-    z_moment_forces = total_moment[0]*r_i/r_i2_sum[0]
-    print(x_moment_forces, y_moment_forces, z_moment_forces)
-    moment_forces = np.stack((x_moment_forces, y_moment_forces, z_moment_forces), axis=1)
-    print(moment_forces)
-    return moment_forces
+    r_i = coordinate_array-cgs
+    r_ix, r_iy, r_iz = np.hsplit(r_i, 3)  # split the array into three parts
+    y_forces_due_to_X_moment = -total_moment[0]*r_iz/np.sum(r_iz*r_iz)
+    y_forces_due_to_Z_moment = total_moment[2]*r_ix/np.sum(r_ix*r_ix)
+    # print(y_forces_due_to_Z_moment)
+    # print(coordinate_array)
+    return np.transpose(y_forces_due_to_X_moment+y_forces_due_to_Z_moment)  # get the correct shape for summing later
 
 def calculate_total_force_per_fastener(coordinate_array: np.array, forces: np.array, forces_location: np.array):
     normal_forces = calculate_normal_force_per_fastener(coordinate_array, forces)
@@ -71,7 +67,7 @@ def check_thickness(coordinate_array, D2, sigma_br, forces, t2, forces_location)
 num_rows = 2
 num_columns = 2
 e_1 = 0.015
-w = 0.03
+w = 0.05
 S_z = (1 / (num_rows - 1)) * (w - 2 * e_1)
 coordinate_array = find_coordinates(
     h=0.01,
@@ -86,5 +82,7 @@ coordinate_array = find_coordinates(
 )
 cgs = calculate_cgs(coordinate_array)
 forces_location = np.array([cgs[0], w/2, cgs[2]])
-forces = np.array([0, 0, 1000])
+forces = np.array([1000, 0, 0])
+print(forces)
+print(coordinate_array)
 print(calculate_total_force_per_fastener(coordinate_array, forces, forces_location))
