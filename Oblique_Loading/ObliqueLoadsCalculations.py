@@ -79,8 +79,22 @@ def calculate_mass(diameter_1,thickness_1,width_1,density):
     mass = volume * density
     return mass
 
+def best_dimensions(accepted_dimensions):
+    accepted_dimensions = np.array(accepted_dimensions)
+    count_1 = -1
+    mass_min = np.inf
+    for accepted_dimension in accepted_dimensions:
+        count_1 += 1
+        if accepted_dimension[3] < mass_min:
+            mass_min = accepted_dimension[3]
+            mass_min_index = count_1
+    return accepted_dimensions[mass_min_index]
+
 accepted_dimensions = []
 for diameter_1 in np.arange(0.001, 0.02, 0.0001):
+    if round(diameter_1%0.005, 4)==0:
+        print("yes")
+        print(best_dimensions(accepted_dimensions))
     for thickness_1 in np.arange(0.001, 0.02, 0.0001):
         for width_1 in np.arange(0.001, 0.02, 0.0001):
             if width_1 > diameter_1:
@@ -89,16 +103,10 @@ for diameter_1 in np.arange(0.001, 0.02, 0.0001):
                     if interac >= 1:
                           mass_1 = calculate_mass(diameter_1,thickness_1,width_1,density)
                           accepted_dimensions.append([diameter_1, thickness_1, width_1, mass_1, interac])
-accepted_dimensions = np.array(accepted_dimensions)
-count_1 = -1
-for accepted_dimension in accepted_dimensions:
-    count_1 += 1
-    mass_min = np.inf
-    if accepted_dimension[3] < mass_min:
-        mass_min = accepted_dimension[3]
-        mass_min_index = count_1
-print(accepted_dimensions[mass_min_index])
-print('hello')
+
+print(best_dimensions(accepted_dimensions))
+
+
 
 
 
