@@ -29,7 +29,7 @@ def calculate_moment_force_per_fastener(coordinate_array, moments):
     cgs = calculate_cgs(coordinate_array)
     relative_positions = coordinate_array-cgs
     absolute_distances = np.linalg.norm(relative_positions, axis=1)  # r_i
-    squared_distance_sum = np.sum(relative_positions*relative_positions)  # r_i squared
+    squared_distance_sum = np.sum(absolute_distances*absolute_distances)  # r_i squared
     moment_force_magnitudes = moments[1]*absolute_distances/squared_distance_sum  # formula 4.4 from the manual
     normalized_position_vectors = normalize(relative_positions, axis=1, norm='l1')  # necessary for finding force vector
 
