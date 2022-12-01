@@ -10,10 +10,12 @@ tension_factors_path = ROOT_DIR + "/tension_efficiency_factors.xlsx"
 axial_factors_path = ROOT_DIR + "/tension_efficiency_axially_loaded.xlsx"
 
 # Forces applied to the entire assembly
-external_forces = np.array([1, 1, 1])  # Newton, x, y and z
-external_moments = np.array([0, 0, 0])  # Newton meter, x, y and z
-w = 0.1 # width
+external_forces = np.array([0, 57, 570])  # Newton, x, y and z
+#external_forces = np.array([0, 1000, 1000])  # Newton, x, y and z
+external_moments = np.array([2.79, 0, 2.79])  # Newton meter, x, y and z
+w = 0.02 # width
 h = 0.1 # flange spacing
 D_1 = 0.01 # diameter of hinge hole
-t_1 = 0.01 # thickness lug flange
+t_1 = 0.005 # thickness lug flange
 l_hole = 0.5*w
+spacecraft_material = 'aluminium'
