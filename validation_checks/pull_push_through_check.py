@@ -62,7 +62,7 @@ def calculate_t2(coordinate_array, D_o, tau_yield, forces, force_location, momen
     min_thickness = max(t2)
 
     # The line below can be commented out during actual iteration
-    print('the minimum thickness for out-of-plane load is ', min_thickness*1000, 'mm')
+    # print('the minimum thickness for out-of-plane load is ', min_thickness*1000, 'mm')
     return max(min_thickness, 0.001)  # 1 mm to take manufacturing into account
 
 def check_thickness(coordinate_array, D2, sigma_br, forces, t2, forces_location):
