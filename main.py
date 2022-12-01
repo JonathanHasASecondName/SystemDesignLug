@@ -50,5 +50,12 @@ for configuration in configurations:
     print(configuration.t_2, configuration.t_3)
 
     # 3. COMPLIANCE CHECK:
+    compliance_fastener = thermal_stress_check.calculate_compliance_b(
+        materials_list[configuration.fastener_material][]
+
+
+    )
 
     # 4. THERMAL STRESS CHECK:
+
+
