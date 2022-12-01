@@ -19,5 +19,5 @@ def calculate_compliance_b(youngs_mod, L_hsub, L_engsub, L_sha, L_nsub, D_fi, d_
 
     return (1/youngs_mod)*((L_hsub/A_nom)+(L_engsub/A_sha)+(L_sha/A_sha)+(L_nsub/A_nom))
 
-def calculate_in_plane_loads(delta_exp_coeff, delta_T, youngs_mod, area_sm, compliance_ratio):
-    return delta_exp_coeff*delta_T*youngs_mod*area_sm*compliance_ratio
+def calculate_in_plane_loads(alpha_c, alpha_b, delta_T, youngs_mod, area_sm, force_ratio):
+    return (alpha_c-alpha_b)*delta_T*youngs_mod*area_sm*(1-force_ratio)
