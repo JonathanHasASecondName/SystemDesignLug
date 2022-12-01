@@ -6,16 +6,20 @@ class Configuration:
                  fastener_positions,
                  D_fo,
                  D_fi,
-                 material
+                 thread_depth,
+                 fastener_material,
+                 lug_material
                  ):
         self.fastener_positions = fastener_positions
         self.D_fo = D_fo
         self.D_fi = D_fi
+        self.thread_depth = thread_depth
         self.t_2 = None
         self.t_3 = None
         self.E_b = None
         self.alpha_b = None
         self.rho_b = None
-        self.material = material
+        self.fastener_material = fastener_material
+        self.lug_material = lug_material
 
 

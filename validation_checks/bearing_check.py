@@ -54,25 +54,3 @@ def calculate_t2(coordinate_array, D2, sigma_br, forces, moments):
 def check_thickness(coordinate_array, D2, sigma_br, forces, t2):
     # check for a given thickness whether it satisfies the
     return t2 > calculate_t2(coordinate_array, D2, sigma_br, forces)
-
-num_rows = 2
-num_columns = 2
-e_1 = 0.015
-w = 0.05
-S_z = (1 / (num_rows - 1)) * (w - 2 * e_1)
-coordinate_array = find_coordinates(
-    h=0.01,
-    D_2=0.005,
-    t_1=0.002,
-    e_1=0.015,
-    e_2=0.015,
-    S_z=S_z,
-    S_x=0.01,
-    num_rows=2,
-    num_columns=1
-)
-forces = np.array([0, 0, 0])
-moments = np.array([0, 100, 0])
-D2=0.008
-sigma_br=670000000
-print(calculate_t2(coordinate_array, D2, sigma_br, forces, moments))
