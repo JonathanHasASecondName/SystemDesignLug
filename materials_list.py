@@ -5,3 +5,5 @@ materials_list = {
     'titanium': {'type': 'metal', 'yield_stress': 880000000, 'shear_stress': 293333333, 'bearing_stress': 1480000000, 'density': 4430, 'thermal_expansion_coeff': 8.6} # https://asm.matweb.com/search/SpecificMaterial.asp?bassnum=mtp641
 }
 # NB. Thermal expansion is in micrometer/m-C. See https://asm.matweb.com/search/SpecificMaterial.asp?bassnum=mtp641
+
+# ADD COMPOSITES?
