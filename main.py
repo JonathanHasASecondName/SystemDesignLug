@@ -14,19 +14,25 @@ for configuration in configurations:
         configuration.fastener_positions,
         configuration.D_fi,
         materials_list[configuration.lug_material]["bearing_stress"],
-        config.external_forces)
+        config.external_forces,
+        config.external_moments
+    )
     configuration.t_3 = bearing_check.calculate_t2(
         configuration.fastener_positions,
         configuration.D_fi,
         materials_list[config.spacecraft_material]["bearing_stress"],
-        config.external_forces)
+        config.external_forces,
+        config.external_moments
+    )
     # 2. PULL/PUSH THROUGH CHECK:
     pull_push_through_check_t2 = pull_push_through_check.calculate_t2(
         configuration.fastener_positions,
         configuration.D_fi,
         materials_list[configuration.lug_material]['shear_stress'],
         config.external_forces,
-        np.array([0, config.w/2, 0]))
+        np.array([0, config.w/2, 0]),
+        config.external_moments
+    )
     if pull_push_through_check_t2 > configuration.t_2:
         configuration.t_2 = pull_push_through_check_t2
     pull_push_through_check_t3 = pull_push_through_check.calculate_t2(
@@ -34,7 +40,9 @@ for configuration in configurations:
         configuration.D_fi,
         materials_list[config.spacecraft_material]['shear_stress'],
         config.external_forces,
-        np.array([0, config.w/2, 0]))
+        np.array([0, config.w/2, 0]),
+        config.external_moments
+    )
     if pull_push_through_check_t3 > configuration.t_3:
         configuration.t_3 = pull_push_through_check_t3
 
