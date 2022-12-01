@@ -3,6 +3,7 @@ import numpy as np
 from configurations_generator import generate_configurations
 from validation_checks import bearing_check
 from validation_checks import pull_push_through_check
+from validation_checks import thermal_stress_check
 from materials_list import materials_list
 import mass_calculator
 import config
