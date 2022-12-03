@@ -64,6 +64,7 @@ def P_bry_calculation(thickness_1, diameter_1, width_1, stress_yield):
         P_bry = K_bry
     return P_bry
 
+
 def AavAbrCalculation(diameter_1,thickness_1,width_1):
     A_1 = (width_1 / 2 - (0.7071 * diameter_1 / 2)) * thickness_1
     A_4 = A_1
@@ -131,6 +132,9 @@ for diameter_1 in np.arange(0.001, 0.02, 0.0001):
     for thickness_1 in np.arange(0.001, 0.02, 0.0001):
         for width_1 in np.arange(0.001, 0.02, 0.0001):
             if width_1 > diameter_1:
+#diameter_1 = 0.0018
+#thickness_1 = 0.0047
+#width_1 = 0.0024
                 if (P_y_calculation(diameter_1,thickness_1,width_1,stress_yield) is not None) and (P_ty_calculation(diameter_1, thickness_1, width_1, stress_yield) is not None) and (P_bry_calculation(thickness_1, diameter_1, width_1, stress_yield) is not None):
                     interac = interaction_eq(diameter_1, thickness_1, width_1, stress_yield, F_y, F_z)
                     mass_1 = 2* calculate_mass(diameter_1,thickness_1,width_1,density)
