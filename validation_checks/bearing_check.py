@@ -1,5 +1,6 @@
 import numpy as np
 from sklearn.preprocessing import normalize
+from copy import deepcopy
 
 from configuration import Configuration
 from configurations_generator import find_coordinates
@@ -21,6 +22,7 @@ def calculate_vector_force_per_fastener(coordinate_array, forces):
     """
     Input: a numpy array with the coordinates of one configuration and a numpy array of the forces.
     """
+    forces = deepcopy(forces)
     forces[1] = 0  # ignore forces in the y direction, as that is not what this checks for
     fastener_forces = forces/len(coordinate_array)
     return np.tile(fastener_forces, reps=(len(coordinate_array), 1))
@@ -48,7 +50,7 @@ def calculate_t2(coordinate_array, D2, sigma_br, forces, moments):
     min_thickness = max(t2)
 
     # The line below can be commented out during actual iteration
-    print('the minimum thickness for bearing is ', min_thickness*1000, 'mm')
+    # print('the minimum thickness for bearing is ', min_thickness*1000, 'mm')
     return max(min_thickness, 0.001)  # 1 mm to take manufacturing into account
 
 def check_thickness(coordinate_array, D2, sigma_br, forces, t2):
