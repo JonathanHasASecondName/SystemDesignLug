@@ -68,8 +68,8 @@ for configuration in configurations:
     force_ratio = thermal_stress_check.calculate_force_ratio(compliance_fastener, compliance_attached_part)
 
     Thermal_load_with_back_plate = thermal_stress_check.calculate_in_plane_loads(
-        1,
-        1,
+        materials_list[configuration.lug_material]['thermal_expansion_coeff'],
+        materials_list[configuration.fastener_material]['thermal_expansion_coeff'],
         115,
         configuration.fastener_material,
         1,
@@ -78,7 +78,7 @@ for configuration in configurations:
 
     Thermal_load_with_vehicle_wall = thermal_stress_check.calculate_in_plane_loads(
         1,
-        1,
+        materials_list[configuration.fastener_material]['thermal_expansion_coeff'],
         115,
         configuration.fastener_material,
         1,
