@@ -18,4 +18,5 @@ h = 0.1 # flange spacing
 D_1 = 0.01 # diameter of hinge hole
 t_1 = 0.005 # thickness lug flange
 l_hole = 0.5*w
-spacecraft_material = 'aluminium'
+spacecraft_material = '7075-T6 aluminium'
+lug_material = '356-T6 aluminium'

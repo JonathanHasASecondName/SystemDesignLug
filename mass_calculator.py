@@ -33,5 +33,5 @@ def calculate_backplate_mass(material_backplate,w,fastener_positions,t_2,D_2,num
 def calculate_bolts_mass(material_bolts,num_bolts,D_2,D_fo,H_bolt,t_1,t_2,):
     mass_bolt_head = (np.pi*((D_fo/2)**2)*H_bolt)*materials_list[material_bolts]['density']
     mass_bolt_shaft = np.pi*((D_2/2)**2)*(t_1+t_2+H_bolt)*materials_list[material_bolts]['density']
-    print(mass_bolt_head, mass_bolt_shaft)
+    # print(mass_bolt_head, mass_bolt_shaft)
     return (mass_bolt_head + mass_bolt_shaft)*num_bolts

@@ -9,10 +9,11 @@ import mass_calculator
 import config
 
 configurations = generate_configurations()
+force_location = np.array([0, config.w/2, 0])
 
 mass_list = []
 for configuration in configurations:
-    print("lug, fastener material: ", configuration.lug_material, configuration.fastener_material)
+    # print("lug, fastener material: ", configuration.lug_material, configuration.fastener_material)
     # 1. BEARING CHECK
     configuration.t_2 = bearing_check.calculate_t2(
         configuration.fastener_positions,
@@ -27,7 +28,7 @@ for configuration in configurations:
         config.external_forces,
         config.external_moments)
 
-    print("BC: ", configuration.t_2, configuration.t_3)
+    # print("BC: ", configuration.t_2, configuration.t_3)
 
     # 2. PULL/PUSH THROUGH CHECK:
     pull_push_through_check_t2 = pull_push_through_check.calculate_t2(
@@ -35,7 +36,7 @@ for configuration in configurations:
         D_o=configuration.D_fi,
         tau_yield=materials_list[configuration.lug_material]['shear_stress'],
         forces=config.external_forces,
-        force_location=np.array([0, config.w/2, 0]),
+        force_location=force_location,
         moment=config.external_moments)
     if pull_push_through_check_t2 > configuration.t_2:
         configuration.t_2 = pull_push_through_check_t2
@@ -44,12 +45,12 @@ for configuration in configurations:
         configuration.D_fi,
         materials_list[config.spacecraft_material]['shear_stress'],
         config.external_forces,
-        np.array([0, config.w/2, 0]),
+        force_location,
         config.external_moments)
     if pull_push_through_check_t3 > configuration.t_3:
         configuration.t_3 = pull_push_through_check_t3
-    print("PPTC: ", pull_push_through_check_t2, pull_push_through_check_t3)
-    print("FINAL: ", configuration.t_2, configuration.t_3, '\n')
+    # print("PPTC: ", pull_push_through_check_t2, pull_push_through_check_t3)
+    # print("FINAL: ", configuration.t_2, configuration.t_3, '\n')
 
     # 3. COMPLIANCE CHECK:
 
@@ -74,4 +75,5 @@ for configuration in configurations:
     # MASS MINIMIZER:
 mass_list = np.array(mass_list)
 index_min = np.argmin(mass_list)
+print(len(configurations))
 print(vars(configurations[index_min]))
