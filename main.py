@@ -58,15 +58,25 @@ for configuration in configurations:
         configuration.D_fi,
         0.00479806)
 
-    compliance_attached_part = thermal_stress_check.calculate_compliance_a(
-        0.1,
+    compliance_back_wall = thermal_stress_check.calculate_compliance_a(
+        configuration.t_2,
         materials_list[configuration.lug_material]['Youngs_modulus']
         configuration.D_fo
         configuration.D_fi
 
     )
 
-    force_ratio = thermal_stress_check.calculate_force_ratio(compliance_fastener, compliance_attached_part)
+    compliance_vehicle_wall = thermal_stress.calculate_compliance_a(
+
+        configuration.t_3
+        materials_list[configuration.lug_material]['Youngs_modulus']
+        configuration.D_fo
+        configuration.D_fi
+
+    )
+
+    force_ratio_back_wall = thermal_stress_check.calculate_force_ratio(compliance_fastener, compliance_back_wall)
+    force_ratio_vehicle_wall = thermal_stress_check.calculate_force_ratio(compliance_fastener, compiance_vehicle_wall)
 
     Thermal_load_with_back_plate = thermal_stress_check.calculate_in_plane_loads(
         materials_list[configuration.lug_material]['thermal_expansion_coeff'],
@@ -74,7 +84,7 @@ for configuration in configurations:
         115,
         configuration.fastener_material,
         1,
-        force_ratio
+        force_ratio_back_wall
     )
 
     Thermal_load_with_vehicle_wall = thermal_stress_check.calculate_in_plane_loads(
