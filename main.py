@@ -53,61 +53,34 @@ for configuration in configurations:
     # print("FINAL: ", configuration.t_2, configuration.t_3, '\n')
 
     # 3. COMPLIANCE CHECK:
-    compliance_fastener = thermal_stress_check.calculate_compliance_b(
-        materials_list[configuration.fastener_material]['Youngs_modulus']
+
+    Thermal_loads_back_plate = thermal_stress_check.calculate_in_plane_loads(
+        materials_list[config.lug_material]['thermal_expansion_coeff'],
+        materials_list[configuration.fastener_material]['thermal_expansion_coeff'],
+        115,
+        materials_list[configuration.fastener_material]['Youngs_modulus'],
+        1,
+        materials_list[config.lug_material]['Youngs_modulus']
         configuration.D_fi,
-        0.00479806)
+        configuration.D_fo,
+        0.00479806,
+        configuration.t_2)
 
-    compliance_back_wall = thermal_stress_check.calculate_compliance_a(
-        configuration.t_2,
-        materials_list[configuration.lug_material]['Youngs_modulus']
-        configuration.D_fo
-        configuration.D_fi
-
-    )
-
-    compliance_vehicle_wall = thermal_stress.calculate_compliance_a(
-
-        configuration.t_3
-        materials_list[configuration.lug_material]['Youngs_modulus']
-        configuration.D_fo
-        configuration.D_fi
-
-    )
-
-    force_ratio_back_wall = thermal_stress_check.calculate_force_ratio(compliance_fastener, compliance_back_wall)
-    force_ratio_vehicle_wall = thermal_stress_check.calculate_force_ratio(compliance_fastener, compiance_vehicle_wall)
-
-    Thermal_load_with_back_plate = thermal_stress_check.calculate_in_plane_loads(
-        materials_list[configuration.lug_material]['thermal_expansion_coeff'],
-        materials_list[configuration.fastener_material]['thermal_expansion_coeff'],
-        115,
-        configuration.fastener_material,
+    Thermal_loads_vehicle_wall = thermal_stress_check.calculate_in_plane_loads(
+        materials_list[config.spacecraft_material]['thermal_expansion_coeff']
+        materials_list[config.fastener_material]['thermal_expansion_coeff']
+        115.
+        materials_list[configuration.fastener_material]['Youngs_modulus'],
         1,
-        force_ratio_back_wall
-    )
-
-    Thermal_load_with_vehicle_wall = thermal_stress_check.calculate_in_plane_loads(
-        1,
-        materials_list[configuration.fastener_material]['thermal_expansion_coeff'],
-        115,
-        configuration.fastener_material,
-        1,
-        force_ratio
-    )
+        materials_list[config.spacecraft_material]['Youngs_modulus'],
+        configuration.D_fi,
+        configuration.D_fo,
+        0.00479806,
+        configuration.t_3)
 
 
 
 
-
-
-
-
-
-
-
-
-    )
 
     # 4. THERMAL STRESS CHECK:
 
