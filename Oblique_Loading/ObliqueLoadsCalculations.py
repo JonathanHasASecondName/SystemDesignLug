@@ -6,7 +6,7 @@ stress_yield = 550*10**6
 stress_ultimate = 620*10**6
 shear_stress_yield = stress_yield/2
 density = 7850
-margin_1 = 0.005
+margin_1 = 0.002
 F_x = 4.5
 F_z = 570
 F_y = 0.1 * F_z
@@ -15,8 +15,9 @@ M_x = 2.79
 M_z = 2.79
 #Getting the data
 
-def Root_Stresses(thickness_1, diameter_1, width_1, margin_1, F_y, F_z):
-    M_x = F_x*(diameter_1*0.5*margin_1)
+def Root_Stresses(thickness_1, diameter_1, width_1, margin_1, F_x, F_z):
+    M_z = F_z*(diameter_1*0.5+margin_1)
+    M_x = F_x*(diameter_1*0.5+margin_1)
     I_x = thickness_1*(width_1**3)/12
     I_z = width_1*(thickness_1**3)/12
     sigma_1 = (M_z*(width_1/2))/(I_x)
@@ -81,6 +82,7 @@ def AavAbrCalculation(diameter_1,thickness_1,width_1):
     A_av = 6 / (3 / A_1 + 1 / A_2 + 1 / A_3 + 1 / A_4)
     A_br = diameter_1 * thickness_1
     return A_av, A_br
+
 def P_ty_calculation(diameter_1, thickness_1, width_1, stress_yield):
     A_av, A_br = AavAbrCalculation(diameter_1, thickness_1, width_1)
     Aav_over_Abr = A_av/A_br
@@ -142,14 +144,14 @@ for diameter_1 in np.arange(0.001, 0.02, 0.0001):
     for thickness_1 in np.arange(0.001, 0.02, 0.0001):
         for width_1 in np.arange(0.001, 0.02, 0.0001):
             if width_1 > diameter_1:
-#diameter_1 = 0.0018
-#thickness_1 = 0.0047
-#width_1 = 0.0024
+#diameter_1 = 0.0044
+#thickness_1 = 0.001
+#width_1 = 0.0056
                 if (P_y_calculation(diameter_1,thickness_1,width_1,stress_yield) is not None) and (P_ty_calculation(diameter_1, thickness_1, width_1, stress_yield) is not None) and (P_bry_calculation(thickness_1, diameter_1, width_1, stress_yield) is not None):
                     interac = interaction_eq(diameter_1, thickness_1, width_1, stress_yield, F_y, F_z)
-                    if interac <= 1 and (Moment_x_calculation(thickness_1, diameter_1, width_1, M_x)+Force_x_shear_calculation(thickness_1, diameter_1, width_1, F_x)<=stress_yield) and (Moment_z_calculation(thickness_1, diameter_1, width_1, M_z, F_y_2)+Force_x_shear_calculation(thickness_1, diameter_1, width_1, F_x))<= stress_yield and Root_Stresses(thickness_1, diameter_1, width_1, margin_1, F_y, F_z)<= stress_yield:
+                    if interac <= 1 and (Moment_x_calculation(thickness_1, diameter_1, width_1, M_x)+Force_x_shear_calculation(thickness_1, diameter_1, width_1, F_x)<=stress_yield) and (Moment_z_calculation(thickness_1, diameter_1, width_1, M_z, F_y_2)+Force_x_shear_calculation(thickness_1, diameter_1, width_1, F_x))<= stress_yield and Root_Stresses(thickness_1, diameter_1, width_1, margin_1, F_x, F_z)<= stress_yield:
                         mass_1 = calculate_mass(diameter_1,thickness_1,width_1,density,margin_1)
-                        accepted_dimensions.append([diameter_1, thickness_1, width_1, mass_1, interac, Moment_x_calculation(thickness_1, diameter_1, width_1, M_x), Force_x_shear_calculation(thickness_1, diameter_1, width_1, F_x), Moment_z_calculation(thickness_1, diameter_1, width_1, M_z, F_y_2),Root_Stresses(thickness_1, diameter_1, width_1, margin_1, F_y, F_z)])
+                        accepted_dimensions.append([diameter_1, thickness_1, width_1, mass_1, interac, Moment_x_calculation(thickness_1, diameter_1, width_1, M_x), Force_x_shear_calculation(thickness_1, diameter_1, width_1, F_x), Moment_z_calculation(thickness_1, diameter_1, width_1, M_z, F_y_2),Root_Stresses(thickness_1, diameter_1, width_1, margin_1, F_x, F_z)])
 print(best_dimensions(accepted_dimensions))
 
 
