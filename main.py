@@ -52,6 +52,51 @@ for configuration in configurations:
     print("FINAL: ", configuration.t_2, configuration.t_3, '\n')
 
     # 3. COMPLIANCE CHECK:
+    compliance_fastener = thermal_stress_check.calculate_compliance_b(
+        materials_list[configuration.fastener_material]['Youngs_modulus']
+        configuration.D_fi,
+        0.00479806)
+
+    compliance_attached_part = thermal_stress_check.calculate_compliance_a(
+        0.1,
+        materials_list[configuration.lug_material]['Youngs_modulus']
+        configuration.D_fo
+        configuration.D_fi
+
+    )
+
+    force_ratio = thermal_stress_check.calculate_force_ratio(compliance_fastener, compliance_attached_part)
+
+    Thermal_load_with_back_plate = thermal_stress_check.calculate_in_plane_loads(
+        1,
+        1,
+        115,
+        configuration.fastener_material,
+        1,
+        force_ratio
+    )
+
+    Thermal_load_with_vehicle_wall = thermal_stress_check.calculate_in_plane_loads(
+        1,
+        1,
+        115,
+        configuration.fastener_material,
+        1,
+        force_ratio
+    )
+
+
+
+
+
+
+
+
+
+
+
+
+    )
 
     # 4. THERMAL STRESS CHECK:
 
