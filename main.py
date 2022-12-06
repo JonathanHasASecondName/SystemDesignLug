@@ -55,26 +55,33 @@ for configuration in configurations:
     # 3. COMPLIANCE CHECK:
 
     Thermal_loads_back_plate = thermal_stress_check.calculate_in_plane_loads(
-        materials_list[config.lug_material]['thermal_expansion_coeff'],
-        materials_list[configuration.fastener_material]['thermal_expansion_coeff'],
-        115,
-        materials_list[configuration.fastener_material]['Youngs_modulus'],
-        materials_list[config.lug_material]['Youngs_modulus']
-        configuration.D_fi,
-        configuration.D_fo,
-        0.014701,
-        configuration.t_2)
+        alpha_c=materials_list[config.lug_material]['thermal_expansion_coeff']/1e6,
+        alpha_b=materials_list[configuration.fastener_material]['thermal_expansion_coeff']/1e6,
+        delta_T=115,
+        youngs_mod_fastener=materials_list[configuration.fastener_material]['Youngs_modulus'],
+        area_sm=3.14*configuration.D_fi*configuration.D_fi,
+        youngs_mod_clam=materials_list[config.lug_material]['Youngs_modulus'],
+        D_fi=configuration.D_fi,
+        D_fo=configuration.D_fo,
+        d_sha=0.014701,
+        t=configuration.t_2,
+        L_sha=configuration.t_3 + configuration.t_2
+    )
 
     Thermal_loads_vehicle_wall = thermal_stress_check.calculate_in_plane_loads(
-        materials_list[config.spacecraft_material]['thermal_expansion_coeff']
-        materials_list[config.fastener_material]['thermal_expansion_coeff']
-        115.
-        materials_list[configuration.fastener_material]['Youngs_modulus'],
-        materials_list[config.spacecraft_material]['Youngs_modulus'],
-        configuration.D_fi,
-        configuration.D_fo,
-        0.014701,
-        configuration.t_3)
+        alpha_c=materials_list[config.spacecraft_material]['thermal_expansion_coeff']/1e6,
+        alpha_b=materials_list[configuration.fastener_material]['thermal_expansion_coeff']/1e6,
+        delta_T=115,
+        youngs_mod_fastener=materials_list[configuration.fastener_material]['Youngs_modulus'],
+        area_sm=3.14*configuration.D_fi*configuration.D_fi,
+        youngs_mod_clam=materials_list[config.spacecraft_material]['Youngs_modulus'],
+        D_fi=configuration.D_fi,
+        D_fo=configuration.D_fo,
+        d_sha=0.001,
+        t=configuration.t_3,
+        L_sha=configuration.t_3+configuration.t_2
+    )
+    print(Thermal_loads_back_plate)
 
 
 
