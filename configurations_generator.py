@@ -41,7 +41,7 @@ def generate_configurations() -> list[Configuration]:
                             num_rows=num_rows,
                             num_columns=num_columns
                         )
-                        configurations.append(Configuration(coordinates, bolt_type[2]*0.001, D_2, bolt_type[3]*0.001, fastener_material, lug_material, bolt_type[5]*0.001))
+                        configurations.append(Configuration(coordinates, bolt_type[2]*0.001, D_2, bolt_type[3]*0.001, fastener_material, lug_material, bolt_type[5]*0.001, bolt_type[4]*0.001))
     return configurations
 
 def find_S_x(material: str, D_2):

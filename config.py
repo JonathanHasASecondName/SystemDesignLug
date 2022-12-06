@@ -20,3 +20,4 @@ t_1 = 0.005 # thickness lug flange
 l_hole = 0.5*w
 spacecraft_material = '2024-T4 aluminium'
 lug_material = '356-T6 aluminium'
+force_safety_factor = 1.5
