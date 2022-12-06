@@ -23,7 +23,7 @@ def generate_configurations() -> list[Configuration]:
                 e_3 = config.t_1 + 0.5 * D_2
                 num_rows_max = find_number_of_rows(fastener_material, e_1, D_2, config.w)
                 S_x = find_S_x(fastener_material, D_2)
-                num_columns_max = 2
+                num_columns_max = 3
                 for num_rows in range(2, num_rows_max+1):
                     for num_columns in range(1, num_columns_max+1):
                         try:
@@ -77,7 +77,7 @@ def find_number_of_rows(material: str, e_1, D_2, w):
     w_rc = 2*e_1 + m*D_2
     n = 2
     while True:
-        if w_rc > w:
+        if w_rc >= w:
             n = n-1
             break
         else:

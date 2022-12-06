@@ -92,7 +92,7 @@ for configuration in configurations:
     #print(f"SC alpha: : {materials_list[config.spacecraft_material]['thermal_expansion_coeff']/1e6}\n FAST alpha : {materials_list[configuration.fastener_material]['thermal_expansion_coeff']/1e6}")
     #print(f"Thermal Loads Backplate : {Thermal_loads_back_plate}\n Thermal Loads Vehicle Wall : {Thermal_loads_vehicle_wall}\n")
 
-    # 4. THERMAL STRESS CHECK:
+    # 4. THERMAL STRESS CHECK BACKPLATE:
 
     # take thermal loads, add them to original loads, and re-run bearing check to see if it passes
 
@@ -101,7 +101,7 @@ for configuration in configurations:
         configuration.D_fi,
         materials_list[configuration.lug_material]["bearing_stress"],
         config.external_forces*config.force_safety_factor,
-        configuration.thermal_loads_backplate,
+        configuration.thermal_loads_backplate*config.thermal_loads_safety_factor,
         config.external_moments,
         configuration.t_2)
 
@@ -112,7 +112,7 @@ for configuration in configurations:
             configuration.D_fi,
             materials_list[configuration.lug_material]["bearing_stress"],
             config.external_forces * config.force_safety_factor,
-            configuration.thermal_loads_backplate,
+            configuration.thermal_loads_backplate*config.thermal_loads_safety_factor,
             config.external_moments
         )
 
@@ -154,9 +154,75 @@ for configuration in configurations:
             configuration.D_fi,
             materials_list[configuration.lug_material]["bearing_stress"],
             config.external_forces * config.force_safety_factor,
-            configuration.thermal_loads_backplate,
+            configuration.thermal_loads_backplate*config.thermal_loads_safety_factor,
             config.external_moments,
             configuration.t_2)
+
+        # 4. THERMAL STRESS CHECK VEHICLE WALL:
+
+        # take thermal loads, add them to original loads, and re-run bearing check to see if it passes
+
+        thermal_check = bearing_check.check_thickness(
+            configuration.fastener_positions,
+            configuration.D_fi,
+            materials_list[configuration.lug_material]["bearing_stress"],
+            config.external_forces * config.force_safety_factor,
+            configuration.thermal_loads_vehicle_wall * config.thermal_loads_safety_factor,
+            config.external_moments,
+            configuration.t_2)
+
+        while thermal_check == False:
+            thermal_loads_t_2 = bearing_check.calculate_t2(
+                configuration.fastener_positions,
+                configuration.D_fi,
+                materials_list[configuration.lug_material]["bearing_stress"],
+                config.external_forces * config.force_safety_factor,
+                configuration.thermal_loads_vehicle_wall * config.thermal_loads_safety_factor,
+                config.external_moments
+            )
+
+            configuration.t_2 = thermal_loads_t_2
+
+            Thermal_loads_back_plate = thermal_stress_check.calculate_in_plane_loads(
+                alpha_c=materials_list[config.lug_material]['thermal_expansion_coeff'] / 1e6,
+                alpha_b=materials_list[configuration.fastener_material]['thermal_expansion_coeff'] / 1e6,
+                delta_T=115,
+                youngs_mod_fastener=materials_list[configuration.fastener_material]['Youngs_modulus'],
+                area_sm=3.14 * configuration.D_fi * configuration.D_fi,
+                youngs_mod_clam=materials_list[config.lug_material]['Youngs_modulus'],
+                D_fi=configuration.D_fi,
+                D_fo=configuration.D_fo,
+                d_sha=configuration.fastener_minor_diameter,
+                t=configuration.t_2,
+                L_sha=configuration.t_3 + configuration.t_2
+            )
+
+            Thermal_loads_vehicle_wall = thermal_stress_check.calculate_in_plane_loads(
+                alpha_c=materials_list[config.spacecraft_material]['thermal_expansion_coeff'] / 1e6,
+                alpha_b=materials_list[configuration.fastener_material]['thermal_expansion_coeff'] / 1e6,
+                delta_T=115,
+                youngs_mod_fastener=materials_list[configuration.fastener_material]['Youngs_modulus'],
+                area_sm=3.14 * configuration.D_fi * configuration.D_fi,
+                youngs_mod_clam=materials_list[config.spacecraft_material]['Youngs_modulus'],
+                D_fi=configuration.D_fi,
+                D_fo=configuration.D_fo,
+                d_sha=configuration.fastener_minor_diameter,
+                t=configuration.t_3,
+                L_sha=configuration.t_3 + configuration.t_2
+            )
+
+            configuration.thermal_loads_backplate = Thermal_loads_back_plate
+            configuration.thermal_loads_vehicle_wall = Thermal_loads_vehicle_wall
+
+            thermal_check = bearing_check.check_thickness(
+                configuration.fastener_positions,
+                configuration.D_fi,
+                materials_list[configuration.lug_material]["bearing_stress"],
+                config.external_forces * config.force_safety_factor,
+                configuration.thermal_loads_vehicle_wall * config.thermal_loads_safety_factor,
+                config.external_moments,
+                configuration.t_2)
+
 
     # 5. MASS CALCULATION:
     configuration.mass = mass_calculator.calculate_mass(
@@ -178,7 +244,6 @@ for configuration in configurations:
     # MASS MINIMIZER:
 mass_list = np.array(mass_list)
 mass_list = np.argsort(mass_list)
-
 
 print(vars(configurations[mass_list[0]]))
 print(vars(configurations[mass_list[1]]))
