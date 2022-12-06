@@ -59,7 +59,6 @@ for configuration in configurations:
         materials_list[configuration.fastener_material]['thermal_expansion_coeff'],
         115,
         materials_list[configuration.fastener_material]['Youngs_modulus'],
-        1,
         materials_list[config.lug_material]['Youngs_modulus']
         configuration.D_fi,
         configuration.D_fo,
@@ -71,7 +70,6 @@ for configuration in configurations:
         materials_list[config.fastener_material]['thermal_expansion_coeff']
         115.
         materials_list[configuration.fastener_material]['Youngs_modulus'],
-        1,
         materials_list[config.spacecraft_material]['Youngs_modulus'],
         configuration.D_fi,
         configuration.D_fo,

@@ -22,8 +22,9 @@ def calculate_compliance_b(youngs_mod,  D_fi, d_sha):
 
     return (1/youngs_mod)*((L_hsub/A_nom)+(L_engsub/A_sha)+(L_sha/A_sha)+(L_nsub/A_nom))
 
-def calculate_in_plane_loads(alpha_c, alpha_b, delta_T, youngs_mod_fastener, area_sm, youngs_mod_clam, D_fi, D_fo, d_sha, t):
+def calculate_in_plane_loads(alpha_c, alpha_b, delta_T, youngs_mod_fastener, youngs_mod_clam, D_fi, D_fo, d_sha, t):
     compliance_b = calculate_combliance_b(youngs_mod_fastener, D_fi, d_sha)
     compliance_a = calculate_complaince_a(t, youngs_mod_clam, D_fo, D_fi)
     force_ratio = calculate_force_ratio(compliance_a, compliance_b)
+    area_sm = (math.pi * (d_sha) ** 2 )/4
     return (alpha_c-alpha_b)*delta_T*youngs_mod*area_sm*(1-force_ratio)
