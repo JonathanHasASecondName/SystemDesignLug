@@ -59,16 +59,16 @@ for configuration in configurations:
         materials_list[configuration.fastener_material]['thermal_expansion_coeff'],
         115,
         materials_list[configuration.fastener_material]['Youngs_modulus'],
-        materials_list[config.lug_material]['Youngs_modulus']
+        materials_list[config.lug_material]['Youngs_modulus'],
         configuration.D_fi,
         configuration.D_fo,
         0.014701,
         configuration.t_2)
 
     Thermal_loads_vehicle_wall = thermal_stress_check.calculate_in_plane_loads(
-        materials_list[config.spacecraft_material]['thermal_expansion_coeff']
-        materials_list[config.fastener_material]['thermal_expansion_coeff']
-        115.
+        materials_list[config.spacecraft_material]['thermal_expansion_coeff'],
+        materials_list[config.fastener_material]['thermal_expansion_coeff'],
+        115,
         materials_list[configuration.fastener_material]['Youngs_modulus'],
         materials_list[config.spacecraft_material]['Youngs_modulus'],
         configuration.D_fi,
